@@ -1,16 +1,13 @@
-EXP_NAME: 'TPS-SimpleResNet-BiLSTM-Attn-wild_doc'                                                                     # Where to store logs and models
-SAVED_MODEL_PATH: '' #/home/jovyan/nas/1_user/eunsung.shin@agilesoda.ai/module/CRAFTS/saved_models/TPS-SimpleResNet-BiLSTM-Attn-Seed123/CRAFTS30.pth'
-
-#'/home/jovyan/nas/1_user/eunsung.shin@agilesoda.ai/module/CRAFTS/saved_models/TPS-SimpleResNet-BiLSTM-Attn-wild_doc/CRAFTS30.pth'   #'/home/jovyan/nas/1_user/eunsung.shin@agilesoda.ai/module/CRAFTS/saved_models/TPS-SimpleResNet-BiLSTM-Attn-Seed123/CRAFTS15.pth' ##'/home/jovyan/nas/1_user/eunsung.shin@agilesoda.ai/module/CRAFTS/saved_models/TPS-ResNet-BiLSTM-Attn-Seed123/CRAFTS28.pth'
+EXP_NAME: 'TPS-SimpleResNet-BiLSTM-Attn-wild_doc'                                # Where to store logs and models
+SAVED_MODEL_PATH: '' 
 MODE: 1                                                                          # 1: train, 2: test
 MODEL: 1                                                                         # 1: CRAFTS, 2: CRAFT, 3: STR
-SEED: 123                                                                       # random seed
-GPU: ['2']                                                                         # list of gpu ids
+SEED: 123                                                                        # random seed
+GPU: ['2']                                                                       # list of gpu ids
 WORKERS: 16                                                                      # number of data loading workers
 CUDA: True # 현재, test_crafts는 무조건 cpu모드로 돌아감. line 266
 
-DATA_PATH: ['/home/jovyan/nas/2_public_data/TwinReader/std_data/textdetection_v2_large/AIHUB_wild_scene/', '/home/jovyan/nas/2_public_data/TwinReader/std_data/textdetection_v2_large/pdf_data/']             # Path to data loader; should have 'image' and 'label_txt' folder
-
+DATA_PATH: []
 STD_CONFIG_PATH: './config/detection.yaml'                                       # Path to STD configuration file # 아직 사용할 필요 없음(09/23일 기준)
 STR_CONFIG_PATH: './config/recognition.yaml'                                     # Path to STR configuration file
 
@@ -20,5 +17,5 @@ WEIGHT_DECAY: 5e-4                                                              
 GAMMA: 0.99                                                                      # Gamma update for SGD
 BATCH_SIZE: 2                                                                    # Batch Size
 MAX_EPOCH: 3000                                                                  # Number of training teration
-visualize_orientation: False                                                      # while inference, visualize orientation results
+visualize_orientation: False                                                     # while inference, visualize orientation results
  

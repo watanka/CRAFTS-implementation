@@ -206,7 +206,7 @@ def sort_rectangle_centroid(coords) :
 
 
 def create_orientation(affinity_bboxes, character_bboxes, region_scores, words) :
-    '''takes affinitypoints(straight links) and character bbox coordinates
+    '''takes affinity points(straight links) and character bbox coordinates
        return orientation_x and orientation_y with image size'''
     
     orientation_x = Image.new('L',region_scores.shape[::-1][:2], 0 )
@@ -218,9 +218,7 @@ def create_orientation(affinity_bboxes, character_bboxes, region_scores, words) 
     scale_region[scale_region<255*0.5] = 0
     scale_region[scale_region>255*0.5] = 1
 
-#     assert len(affinity_bboxes) == len(character_bboxes)
     for affpoints, character_bbox, word in zip(affinity_bboxes, character_bboxes, words) :
-#         assert len(affpoints) == len(character_bbox)
         
         for i, charboxes in enumerate(character_bbox) :
             
@@ -238,19 +236,6 @@ def create_orientation(affinity_bboxes, character_bboxes, region_scores, words) 
                         print(len(charboxes), len(affpoints))
                         raise ValueError
                     theta = np.arctan2((y1-y0),(x1-x0)) #TODO : 글자 마지막에 대한 orientation 처리 필요
-                    
-            #         cv2.fillConvexPoly(orientation_x, charboxes, ori_x)
-            #         cv2.fillConvexPoly(orientation_y, charboxes, ori_y)
-                    
-#                 else :
-#                     theta = 0
-                    
-
-            #         cv2.fillConvexPoly(orientation_x, charboxes, ori_x)
-            #         cv2.fillConvexPoly(orientation_y, charboxes, ori_y)
-#             if word.startswith('[ROT') :
-#                 theta = 1
-            
             
             ori_x = (np.cos(theta*np.pi/2)+1)/2*255.
             ori_y = (np.sin(theta*np.pi/2)+1)/2*255.
@@ -261,42 +246,3 @@ def create_orientation(affinity_bboxes, character_bboxes, region_scores, words) 
     orientation_y_region = np.multiply(scale_region, np.array(orientation_y)/255.)
         
     return orientation_x_region, orientation_y_region #np.array(orientation_x)/255., np.array(orientation_y)/255.
-
-def crop_image_batch_by_bbox(image, box):
-#     batch_image_list = []
-
-#     for image in images : 
-# #         if len(box) == 4 :
-# #             w = (int)(np.linalg.norm(box[0] - box[1]))
-# #             h = (int)(np.linalg.norm(box[0] - box[3]))
-# #             width = w
-# #             height = h
-# #             if h > w * 1.5:
-# #                 width = h
-# #                 height = w
-# #                 M = cv2.getPerspectiveTransform(np.float32(box),
-# #                                                 np.float32(np.array([[width, 0], [width, height], [0, height], [0, 0]])))
-# #             else:
-# #                 M = cv2.getPerspectiveTransform(np.float32(box),
-# #                                                 np.float32(np.array([[0, 0], [width, 0], [width, height], [0, height]])))
-
-# #             warped = cv2.warpPerspective(image, M, (width, height))
-# #             batch_image_list.append(warped)
-
-
-# #         else : 
-#             # polygon(>4)
-#     pts = np.int32(box)
-#     rect = cv2.boundingRect(pts)
-#     x,y,w,h = rect
-    xmin, xmax = int(torch.min(box[:,0])), int(torch.max(box[:,0]))
-    ymin, ymax = int(torch.min(box[:,1])), int(torch.max(box[:,1]))
-
-    cropped = image[:,ymin:ymax, xmin:xmax]
-    
-    return cropped
-
-#         batch_image_list.append(cropped)
-
-
-#     return np.array(batch_image_list)
