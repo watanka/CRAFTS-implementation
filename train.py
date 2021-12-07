@@ -72,7 +72,7 @@ if __name__ == '__main__' :
     print('TwinReader Data Loading...')
     sy_time=time.time()
     dt = datetime.datetime.today()
-    weight_save_dir = '/home/jovyan/nas/1_user/eunsung.shin@agilesoda.ai/module/CRAFT-reimplement/TwinReaderv2/'+str(dt.month)+str(dt.day)
+    weight_save_dir = './saved_model/'+str(dt.month)+str(dt.day)
     os.makedirs(weight_save_dir, exist_ok = True)
     torch.multiprocessing.set_start_method('spawn')
 
@@ -80,31 +80,18 @@ if __name__ == '__main__' :
     os.makedirs(weight_save_dir, exist_ok = True)
     
     
-    real_img_dir = '/home/jovyan/nas/2_public_data/aihub_wildscene_labeled/' #'/home/jovyan/work/3_project_data/TwinReader/STD/hanhwa'
-#     synth_img_dir = '/home/jovyan/work/1_user/eunsung.shin@agilesoda.ai/data/SynthData/zeros'
+    real_img_dir = './data/' 
     net = CRAFT()
-#     net.load_state_dict(copyStateDict(torch.load('./pretrain/craft_mlt_25k.pth')))
     
     net.conv_cls[-1] = nn.Conv2d(16,4, kernel_size = 1) # 마지막 레이어만 4판으로 교체
     init_weights(net.conv_cls[-1].modules())
-#     net.conv_cls[-1].weight.data.fill_(1)
-#     net.conv_cls[-1].bias.data.fill_(0)
+
     
-    net.load_state_dict(copyStateDict(torch.load('/home/jovyan/nas/1_user/eunsung.shin@agilesoda.ai/module/CRAFT-reimplement/TwinReaderv2/915/0/CRAFT78.pth')))
+    net.load_state_dict(copyStateDict(torch.load('./saved_model/CRAFT_best.pth')))
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     net.to(device)
-#     synth_dataloader = TwinReaderData(data_folder = synth_img_dir)
-#     synth_data_loader = torch.utils.data.DataLoader(
-#         synth_dataloader,
-#         batch_size=4,
-#         shuffle=True,
-#         num_workers=4,
-#         drop_last=True,
-#         pin_memory=True)
-#     batch_syn = iter(synth_data_loader)
-#     print("SynthData loading time:",time.time()-sy_time)
-   
+
     cudnn.benchmark = True
     
     real_time=time.time()
@@ -140,11 +127,6 @@ if __name__ == '__main__' :
         st = time.time()
 
         for index, (real_images, real_gh_label, real_gah_label, real_mask, real_ori_x, real_ori_y) in tqdm(enumerate(real_data_loader)):
-#             try :
-#                 syn_images, syn_gh_label, syn_gah_label, syn_mask = next(batch_syn)
-#             except :
-#                 batch_syn = iter(synth_data_loader)
-#                 syn_images, syn_gh_label, syn_gah_label, syn_mask = next(batch_syn)
             images = real_images #torch.cat((syn_images,real_images), 0)
             gh_label = real_gh_label # torch.cat((syn_gh_label, real_gh_label), 0)
             gah_label = real_gah_label #torch.cat((syn_gah_label, real_gah_label), 0)
