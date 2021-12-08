@@ -6,13 +6,13 @@ Youngmin Baek, Seung Shin, Jeonghun Baek, Sungrae Park, Junyeop Lee, Daehyun Nam
 The full paper is available at: https://arxiv.org/pdf/2007.09629.pdf  
 
 
-This code was heavily based on the repos.  
+This code was heavily based on these two repos below.  
 - [craft-reimplementation](https://github.com/backtime92/CRAFT-Reimplementation)
 - [deep-text-recognition-benchmark](https://github.com/clovaai/deep-text-recognition-benchmark)
 
 
 
-main changes in these repo
+main changes in this repo
 - changed STD backbone. vgg16 -> ResNet50
 - changed STR bacbkone. ResNet50 -> Simplified ResNet
 - end2end training from std to str
